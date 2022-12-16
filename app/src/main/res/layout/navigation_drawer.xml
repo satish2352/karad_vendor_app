@@ -1,0 +1,440 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linLayHeader"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/ten"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="@dimen/five"
+                    android:gravity="center"
+                    android:text="Appointement &amp; Services"
+                    android:textColor="@color/apptheme"
+                    android:textSize="@dimen/twenty"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="@dimen/ten"
+                android:layout_marginBottom="8dp"
+                android:background="@color/black" />
+
+            <TableRow
+                android:id="@+id/tr_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/home"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:paddingLeft="8dp"
+                    android:text="Home"
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_userprofile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/profile"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:paddingLeft="8dp"
+                    android:text="Profile"
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:id="@+id/tr_report"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:visibility="gone"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/my_business"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:paddingLeft="8dp"
+                    android:text="My Business "
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+            <LinearLayout
+                android:id="@+id/linear_report"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <TableRow
+                    android:id="@+id/tr_request_delivery_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="7dp"
+                        android:src="@drawable/single_report"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:paddingLeft="8dp"
+                        android:text="Pending User request"
+                        android:textColor="@android:color/black"
+                        android:textSize="14dp"
+                        android:textStyle="normal" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_center_delivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="7dp"
+                        android:src="@drawable/single_report"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:paddingLeft="8dp"
+                        android:text="Approved User request"
+                        android:textColor="@android:color/black"
+                        android:textSize="14dp"
+                        android:textStyle="normal" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_request_for_centerto_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="7dp"
+                        android:src="@drawable/single_report"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:paddingLeft="8dp"
+                        android:text="Rejected User request"
+                        android:textColor="@android:color/black"
+                        android:textSize="14dp"
+                        android:textStyle="normal" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_deliverd_user_to_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="7dp"
+                        android:src="@drawable/single_report"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:paddingLeft="8dp"
+                        android:text="Complete request"
+                        android:textColor="@android:color/black"
+                        android:textSize="14dp"
+                        android:textStyle="normal" />
+
+                </TableRow>
+
+            </LinearLayout>
+
+
+            <TableRow
+                android:id="@+id/tr_about"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/contact_us"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:paddingLeft="8dp"
+                    android:text="Contact Us"
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_invoice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/invoice"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:paddingLeft="8dp"
+                    android:text="Invoice"
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:id="@+id/tr_Settings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/setting"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:paddingLeft="8dp"
+                    android:text="Settings "
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+            <LinearLayout
+                android:id="@+id/linear_sett"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <TableRow
+                    android:id="@+id/tr_update_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="7dp"
+                        android:src="@drawable/edit"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:paddingLeft="8dp"
+                        android:text="Update profile"
+                        android:textColor="@android:color/black"
+                        android:textSize="14dp"
+                        android:textStyle="normal" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tr_change_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:visibility="gone"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="7dp"
+                        android:src="@drawable/update"
+                        tools:ignore="VectorDrawableCompat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:paddingLeft="8dp"
+                        android:text="Change password"
+                        android:textColor="@android:color/black"
+                        android:textSize="14dp"
+                        android:textStyle="normal" />
+
+                </TableRow>
+
+            </LinearLayout>
+
+
+            <TableRow
+                android:id="@+id/tr_Logout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/logout"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:paddingLeft="8dp"
+                    android:text="Logout"
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
+
+            </TableRow>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="7dp"
+                android:layout_marginBottom="@dimen/five"
+                android:padding="@dimen/five"
+                android:text="Version 1.0"
+                android:textColor="@color/pin_normal"
+                android:textSize="13dp"
+                android:textStyle="normal" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

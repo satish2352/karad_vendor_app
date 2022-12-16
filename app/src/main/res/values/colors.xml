@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f6808e</color>
+    <color name="colorPrimaryDark">#141616</color>
+    <color name="colorAccent">#f6808e</color>
+    <color name="gray">#cea6a6a6</color>
+    <color name="trans_grey_color">#B4170C07</color>
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="red">#FF1100</color>
+    <color name="apptheme">#f6808e</color>
+    <color name="apptheme2">#D62E42</color>
+
+    <color name="yellow_2">#FF9800</color>
+    <color name="gold">#FFD700</color>
+    <color name="green">#019444</color>
+    <color name="sky">#03A9F4</color>
+    <color name="pin_normal">#6B767E</color>
+    <color name="gray_separator">#95DADADA</color>
+    <color name="gray_separatorwhite">#00FFFFFF</color>
+    <color name="grey_color">#ABF1EEEE</color>
+    <color name="grey_dark">#666666</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="highlight_on_light_grey">#dddddd</color>
+    <color name="transparent">#00E1E1E1</color>
+
+</resources>

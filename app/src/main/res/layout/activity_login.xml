@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_back"
+    android:orientation="vertical"
+    tools:context=".Activity.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/fifteen"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/app_logo" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten"
+                android:layout_marginTop="@dimen/fifteen"
+                android:layout_marginEnd="@dimen/ten"
+                android:hint="Mobile Number">
+
+                <!--this is the actual edit text which takes the input-->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/vender_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_otp_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty"
+                android:layout_marginBottom="@dimen/ten"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+
+                <EditText
+                    android:id="@+id/tv_otp1"
+                    android:layout_width="@dimen/forty"
+                    android:layout_height="@dimen/forty"
+                    android:background="@drawable/spinner_background"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:singleLine="true"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/tv_otp2"
+                    android:layout_width="@dimen/forty"
+                    android:layout_height="@dimen/forty"
+                    android:layout_marginStart="@dimen/fifteen"
+                    android:background="@drawable/spinner_background"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:singleLine="true"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/tv_otp3"
+                    android:layout_width="@dimen/forty"
+                    android:layout_height="@dimen/forty"
+                    android:layout_marginStart="@dimen/fifteen"
+                    android:background="@drawable/spinner_background"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:singleLine="true"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/tv_otp4"
+                    android:layout_width="@dimen/forty"
+                    android:layout_height="@dimen/forty"
+                    android:layout_marginStart="@dimen/fifteen"
+                    android:background="@drawable/spinner_background"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:singleLine="true"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/resend_otp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/five"
+                android:gravity="center"
+                android:padding="@dimen/ten"
+                android:text="Resend OTP"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_forget_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifteen"
+                android:drawablePadding="@dimen/seven"
+                android:gravity="center"
+                android:text="Forget Password ?"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="250dp"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_sign"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fifteen"
+                    android:background="@drawable/button_background"
+                    android:drawablePadding="@dimen/seven"
+                    android:padding="@dimen/fifteen"
+                    android:text="Sign in"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_send_otp"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fifteen"
+                    android:background="@drawable/button_background"
+                    android:drawablePadding="@dimen/seven"
+                    android:padding="@dimen/fifteen"
+                    android:text="Send OTP"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_regiter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fifty"
+                android:drawablePadding="@dimen/seven"
+                android:gravity="center"
+                android:text="Register New"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/otp_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/five"
+        android:background="@drawable/circle_background"
+        android:gravity="center"
+        android:padding="@dimen/ten"
+        android:text="0.1"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/highlight_on_light_grey"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@android:color/transparent">
+
+            <RelativeLayout
+                android:id="@+id/rl_quit_learning"
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:elevation="@dimen/ten"
+                    app:cardCornerRadius="@dimen/one"
+                    app:cardMaxElevation="@dimen/ten">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_learning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="@dimen/ten"
+                            android:fontFamily="sans-serif"
+                            android:text="Forget Password"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twenty"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/old"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_learning"
+                            android:layout_margin="@dimen/ten"
+                            android:layout_marginStart="@dimen/ten"
+                            android:layout_marginTop="@dimen/five"
+                            android:layout_marginEnd="@dimen/ten"
+                            android:fontFamily="sans-serif"
+                            android:textColorHint="#c5c5c5"
+                            app:passwordToggleEnabled="true">
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="@dimen/seven"
+                                android:hint="Old Password"
+                                android:imeOptions="actionNext"
+                                android:inputType="textPassword"
+                                android:maxLength="10"
+                                android:padding="@dimen/ten"
+                                android:text="rajendra"
+                                android:textColor="@color/apptheme"
+                                android:textSize="18sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/old"
+                            android:layout_margin="@dimen/ten"
+                            android:layout_marginStart="@dimen/ten"
+                            android:layout_marginTop="@dimen/five"
+                            android:layout_marginEnd="@dimen/ten"
+                            android:fontFamily="sans-serif"
+                            android:textColorHint="#c5c5c5"
+                            app:passwordToggleEnabled="true">
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="@dimen/seven"
+                                android:hint="Old Password"
+                                android:imeOptions="actionNext"
+                                android:inputType="textPassword"
+                                android:maxLength="10"
+                                android:padding="@dimen/ten"
+                                android:text="rajendra"
+                                android:textColor="@color/apptheme"
+                                android:textSize="18sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="210dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/btn_ok"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/circle_green"
+                    android:padding="@dimen/ten"
+                    android:src="@drawable/ic_done" />
+
+                <ImageView
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/fifty"
+                    android:background="@drawable/circle_red"
+                    android:padding="@dimen/ten"
+                    android:src="@drawable/ic_clear" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    <!--     <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/fifteen"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@mipmap/ic_launcher"/>
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/seven"
+                        android:hint="Email id"
+                        android:layout_marginTop="@dimen/ten"
+                        android:text="abc@gmail.com"
+                        android:imeOptions="actionNext"
+                        android:background="@drawable/edittext_background"
+                        android:inputType="textEmailAddress"
+                        android:padding="@dimen/fifteen"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/seven"
+                    android:hint="Password"
+                    android:layout_marginTop="@dimen/fifteen"
+                    android:text="abc@gmail.com"
+                    android:imeOptions="actionDone"
+                    android:background="@drawable/edittext_background"
+                    android:inputType="textPassword"
+                    android:padding="@dimen/fifteen"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/seven"
+                    android:layout_marginTop="@dimen/fifteen"
+                    android:text="Forget Password ?"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_sign"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="@dimen/seven"
+                    android:layout_marginTop="@dimen/fifteen"
+                    android:text="Sign in"
+                    android:background="@drawable/button_background"
+                    android:padding="@dimen/fifteen"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/seven"
+                    android:layout_marginTop="@dimen/fifteen"
+                    android:text="Register New"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>-->

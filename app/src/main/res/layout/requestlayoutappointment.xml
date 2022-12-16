@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/requestProfile"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="5dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/imagebg"
+                android:padding="4dp"
+                android:visibility="gone"
+                android:src="@drawable/no_image_available" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/requestUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/aclonica"
+                    android:paddingVertical="5dp"
+                    android:text="User Name"
+                    android:textSize="18dp"
+                    android:textColor="@color/apptheme" />
+
+                <TextView
+                    android:id="@+id/requestUserNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alike"
+                    android:paddingVertical="5dp"
+                    android:text="9876543210"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/requestUserEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alike"
+                    android:paddingVertical="5dp"
+                    android:text="Email"
+                    android:textColor="@color/black" />
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/requestUserDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/alike"
+            android:layout_marginLeft="10dp"
+            android:textAlignment="center"
+            android:layout_marginVertical="5dp"
+            android:text="Booked On"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/requestUserSlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Slot Date:- 1 jan 2022"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:fontFamily="@font/alike"
+                android:paddingVertical="5dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/requestUserSlotTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Slot Time:- 1 "
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:fontFamily="@font/alike"
+                android:paddingVertical="5dp"
+                android:layout_weight="1"/>
+
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutUserRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:padding="6dp"
+            android:layout_weight="2">
+
+            <Button
+                android:id="@+id/requestUserApprove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Approve"
+                android:textAlignment="center"
+                android:layout_marginRight="4dp"
+                android:textColor="@color/black"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/baloo"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/requestUserDisapprove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Disapprove"
+                android:textAlignment="center"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/button_background_empty"
+                android:textColor="@color/black"
+                android:fontFamily="@font/baloo"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutApprove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:padding="6dp"
+            android:layout_weight="2">
+
+            <Button
+                android:id="@+id/btn_complete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Complete"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="4dp"
+                android:fontFamily="@font/baloo"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btn_reject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/baloo"
+                android:text="Reject"
+                android:background="@drawable/button_background_empty"
+                android:layout_marginLeft="4dp"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutDisApprove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:padding="6dp">
+
+            <Button
+                android:id="@+id/btn_approvee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Approve"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:background="@drawable/button_background"
+                android:layout_marginRight="4dp"
+                android:fontFamily="@font/baloo" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

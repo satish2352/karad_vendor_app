@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Activity.ViewVenderProfile">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:alpha="0.3"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/business_admin"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_centerInParent="true">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/standard_145"
+                    android:layout_height="@dimen/standard_145"
+                    android:background="@drawable/image_background_yellow"
+                    android:padding="@dimen/twelve"
+                    android:src="@drawable/businss"
+                    android:id="@+id/vender_profile"/>
+
+                    <TextView
+                        android:id="@+id/tv_vender_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rajendra Fodase"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/twenty"
+                        android:layout_marginTop="@dimen/ten"
+                        android:gravity="center_vertical"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="@dimen/standard_100"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/twelve"
+                android:text="Details"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@color/apptheme"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_margin="@dimen/ten">
+
+                <!--<TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/seven"
+                    android:text="Owner Name :"
+                    android:layout_marginTop="@dimen/ten"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/twelve"
+                    android:text="Rajendra Somnath Fodase"
+                    android:background="@drawable/spinner_background"
+                    android:textColor="@color/black"/>-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/seven"
+                    android:text="E-Mail :"
+                    android:layout_marginTop="@dimen/ten"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_email_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/twelve"
+                    android:text="rajendrafodase61@gmail.com"
+                    android:background="@drawable/spinner_background"
+                    android:textColor="@color/black"/>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/seven"
+                    android:text="Mobile Number :"
+                    android:layout_marginTop="@dimen/ten"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/twelve"
+                    android:text="+ 91 - 9763941027"
+                    android:background="@drawable/spinner_background"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/seven"
+                    android:text="Date of Birth :"
+                    android:layout_marginTop="@dimen/ten"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/twelve"
+                    android:text="00 - abc - 0000"
+                    android:background="@drawable/spinner_background"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/twelve"
+                android:text="Company Details"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@color/apptheme"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_margin="@dimen/ten">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/seven"
+                    android:text="Company Name :"
+                    android:layout_marginTop="@dimen/ten"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_company_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/twelve"
+                    android:text="ABC.PVT.LTD"
+                    android:background="@drawable/spinner_background"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/seven"
+                    android:visibility="gone"
+                    android:text="Approve/Review Date :"
+                    android:layout_marginTop="@dimen/ten"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_approve_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/twelve"
+                    android:visibility="gone"
+                    android:text="00 - abc - 0000"
+                    android:background="@drawable/spinner_background"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

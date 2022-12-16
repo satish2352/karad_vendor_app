@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Business Expert</string>
+    <string name="runtime_permissions_txt"><![CDATA[Settings->Permission->Enable All Permissions.         \\n Please enable ALL permissions from app settings.]]></string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="no_internet">No Internet Connection,Please Connect The Internet or Wifi</string>
+    <string-array name="type_of_state2">
+        <item>---Business Categroy---</item>
+        <item> </item>
+        <item> </item>
+    </string-array>
+    <string-array name="select">
+        <item>--Select--</item>
+        <item>#demo</item>
+        <item>#demo1</item>
+    </string-array>
+
+    <array name="colors_1">
+        <item>#20389C</item>
+        <item>#FA9D1C</item>
+        <item>#FD680E</item>
+    </array>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>
