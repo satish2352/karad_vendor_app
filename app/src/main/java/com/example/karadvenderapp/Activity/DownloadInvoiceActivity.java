@@ -29,16 +29,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.karadvenderapp.BuildConfig;
 import com.example.karadvenderapp.MyLib.Constants;
 import com.example.karadvenderapp.MyLib.Shared_Preferences;
-import com.example.karadvenderapp.R;
+import com.sipl.karadvendor.R;
 
-import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
+
 
 public class    DownloadInvoiceActivity extends AppCompatActivity {
 
