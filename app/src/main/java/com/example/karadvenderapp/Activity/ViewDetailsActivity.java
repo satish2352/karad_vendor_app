@@ -174,7 +174,7 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getBusiness_description", intent.getStringExtra("getBusiness_description"));
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getAddress", intent.getStringExtra("getAddress"));
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getFld_country_id", intent.getStringExtra("getFld_country_id"));
-        Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getFld_state_id", intent.getStringExtra("getFld_state_id"));
+     Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getFld_state_id", intent.getStringExtra("getFld_state_id"));
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getFld_district_id", intent.getStringExtra("getFld_district_id"));
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getFld_taluka_id", intent.getStringExtra("getFld_taluka_id"));
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getFld_city_id", intent.getStringExtra("getFld_city_id"));
