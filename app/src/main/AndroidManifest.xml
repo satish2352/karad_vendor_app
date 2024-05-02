@@ -148,6 +148,16 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <activity
+            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
+            android:exported="true" />
+        <activity
+            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+            android:exported="true" />
+        <activity
+            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+            android:exported="true" />
+
         <service
             android:name=".FCMIntentService"
             android:exported="true">

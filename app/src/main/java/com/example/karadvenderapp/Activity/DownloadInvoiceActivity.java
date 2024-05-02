@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 import com.example.karadvenderapp.MyLib.Constants;
 import com.example.karadvenderapp.MyLib.Shared_Preferences;
-import com.sipl.karadvendor.R;
+import com.example.karadvenderapp.R;
 
 
 import java.io.File;

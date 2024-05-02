@@ -12,10 +12,10 @@ import com.example.karadvenderapp.Fragment.BusinessPhotoFragment;
 import com.example.karadvenderapp.Fragment.HomeFragment;
 import com.example.karadvenderapp.Fragment.RenewalRequestFragment;
 import com.example.karadvenderapp.Fragment.UserPostsFragment;
+import com.example.karadvenderapp.R;
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import com.github.rubensousa.floatingtoolbar.FloatingToolbarMenuBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.sipl.karadvendor.R;
 
 public class DemoActivity extends AppCompatActivity implements FloatingToolbar.ItemClickListener, FloatingToolbar.MorphListener {
 

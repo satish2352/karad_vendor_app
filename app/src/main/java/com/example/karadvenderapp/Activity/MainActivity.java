@@ -1,6 +1,5 @@
 package com.example.karadvenderapp.Activity;
 
-import static android.os.Build.VERSION_CODES.R;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +38,7 @@ import com.example.karadvenderapp.MyLib.Shared_Preferences;
 import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
+import com.example.karadvenderapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
