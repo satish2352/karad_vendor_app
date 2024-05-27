@@ -98,25 +98,17 @@ public class SecondLevelFragment extends Fragment implements BlockingStep {
 
 
     private boolean validateFields() {
-        boolean result = true;
-        if (!MyValidator.isValidSpinner(state_spinner)) {
-            result = false;
-        } if (!MyValidator.isValidSpinner(area_spinner)) {
-            result = false;
-        } if (!MyValidator.isValidSpinner(country_spinner)) {
-            result = false;
-        } if (!MyValidator.isValidSpinner(district_spinner)) {
-            result = false;
-        } if (!MyValidator.isValidSpinner(area_spinner)) {
-            result = false;
-        } if (!MyValidator.isValidField(edt_edt_address)) {
-            result = false;
-        /*}if (!MyValidator.isValidField(edt_website)) {
-            result = false;*/
-        }
-
-        return result;
+        List<Boolean> listValidation = new ArrayList<>();
+        listValidation.add(MyValidator.isValidSpinner(country_spinner));
+        listValidation.add(MyValidator.isValidSpinner(state_spinner));
+        listValidation.add(MyValidator.isValidSpinner(district_spinner));
+        listValidation.add(MyValidator.isValidSpinner(taluka_spinner));
+        listValidation.add(MyValidator.isValidSpinner(village_spinner));
+        listValidation.add(MyValidator.isValidSpinner(area_spinner));
+        listValidation.add(MyValidator.isValidField(edt_edt_address));
+        return !listValidation.contains(false);
     }
+
 
 
     private void getCountryData() {

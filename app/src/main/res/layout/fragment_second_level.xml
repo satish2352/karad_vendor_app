@@ -43,7 +43,7 @@
                     android:id="@+id/country_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/select"
+                    android:entries="@array/select_country"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:entries="@array/select"
+                    android:entries="@array/select_state"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:entries="@array/select"
+                    android:entries="@array/select_district"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Business Type"
-                    android:entries="@array/select"
+                    android:entries="@array/select_taluka"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -117,7 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="BusinessType"
-                    android:entries="@array/select"
+                    android:entries="@array/select_village"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -136,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="BusinessType"
-                    android:entries="@array/select"
+                    android:entries="@array/select_area"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -154,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="BusinessType"
-                    android:entries="@array/select"
+                    android:entries="@array/select_landmark"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>

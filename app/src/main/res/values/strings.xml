@@ -9,10 +9,26 @@
         <item> </item>
         <item> </item>
     </string-array>
-    <string-array name="select">
-        <item>--Select--</item>
-        <item>#demo</item>
-        <item>#demo1</item>
+    <string-array name="select_country">
+        <item>--Select Country--</item>
+    </string-array>
+    <string-array name="select_state">
+        <item>--Select State--</item>
+    </string-array>
+    <string-array name="select_district">
+        <item>--Select District--</item>
+    </string-array>
+    <string-array name="select_taluka">
+        <item>--Select Taluka--</item>
+    </string-array>
+    <string-array name="select_village">
+        <item>--Select Village--</item>
+    </string-array>
+    <string-array name="select_area">
+        <item>--Select Area--</item>
+    </string-array>
+    <string-array name="select_landmark">
+        <item>--Select Landmark--</item>
     </string-array>
 
     <array name="colors_1">

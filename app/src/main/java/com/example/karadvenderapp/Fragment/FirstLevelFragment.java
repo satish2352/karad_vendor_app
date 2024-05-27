@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -79,6 +80,7 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
     private final static int IMAGE_RESULT = 200;
     public static Bitmap mBitmap;
     private TextView text_upload_image;
+    private TextView tvErrorSelectImage;
     private ImageView business_profile;
     private EditText edt_busi_name, edt_busi_description, edt_contact_person, edt_designation, edt_mobile, edt_telephone, edt_email;
     private Spinner busi_type_spinner, busi_cate_type_spinner, busi_sub_type_spinner, busi_Sub_sub_type_spinner;
@@ -89,8 +91,10 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
     private List<Business_Sub_SubCategoryList> business_sub_subCategoryLists = new ArrayList<>();
     private SimpleArcDialog mDialog;
     private String filePath;
-    private String imagePath;
+    private String imagePath="";
+    private CardView cardSelectImage;
     private static int LOAD_IMAGE_RESULTS = 1;
+    String businessTypeId="";
 
     public FirstLevelFragment() {
 
@@ -299,6 +303,8 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
     }
 
     private void FindByID() {
+        tvErrorSelectImage = rateview.findViewById(R.id.tvErrorSelectImage);
+        cardSelectImage = rateview.findViewById(R.id.cardSelectImage);
         business_profile = rateview.findViewById(R.id.business_profile);
         text_upload_image = rateview.findViewById(R.id.text_upload_image);
         edt_busi_name = rateview.findViewById(R.id.edt_busi_name);
@@ -319,7 +325,7 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
         busi_Sub_sub_type_spinner = rateview.findViewById(R.id.busi_Sub_sub_type_spinner);
         mDialog = new SimpleArcDialog(getContext());
         mDialog.setCancelable(false);
-        text_upload_image.setOnClickListener(new View.OnClickListener() {
+        cardSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -354,30 +360,27 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
 
 
     private boolean validateFields() {
-        boolean result = true;
-        if (!MyValidator.isValidField(edt_busi_name)) {
-            result = false;
+        List<Boolean> listValidation = new ArrayList<>();
+
+        listValidation.add(MyValidator.isValidField(edt_busi_name));
+        listValidation.add(MyValidator.isValidSpinner(busi_type_spinner));
+        listValidation.add(MyValidator.isValidSpinner(busi_cate_type_spinner));
+        listValidation.add(MyValidator.isValidSpinner(busi_sub_type_spinner));
+        listValidation.add(MyValidator.isValidField(edt_contact_person));
+        listValidation.add(MyValidator.isValidMobile(edt_mobile));
+        listValidation.add(MyValidator.isValidEmail(edt_email));
+
+        if (!imagePath.isEmpty()) {
+            listValidation.add(true);
+            tvErrorSelectImage.setText("");
+        } else {
+            listValidation.add(false);
+            tvErrorSelectImage.setText("Required: Please Select Image");
         }
-        if (!MyValidator.isValidSpinner(busi_type_spinner)) {
-            result = false;
-        }
-        if (!MyValidator.isValidSpinner(busi_cate_type_spinner)) {
-            result = false;
-        }
-    /*    if (!MyValidator.isValidSpinner(busi_sub_type_spinner)) {
-            result = false;
-        }*/
-        if (!MyValidator.isValidField(edt_contact_person)) {
-            result = false;
-        }
-        if (!MyValidator.isValidMobile(edt_mobile)) {
-            result = false;
-        }
-        if (!MyValidator.isValidEmail(edt_email)) {
-            result = false;
-        }
-        return result;
+
+        return !listValidation.contains(false);
     }
+
 
     private void getBusinessData() {
         mDialog.show();
@@ -415,6 +418,7 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
                                 //  On selecting a spinner item
                                 String item = adapterView.getItemAtPosition(i).toString();
                                 busi_type = businessTypeLists.get(i).getBusiness_id();
+                                businessTypeId=busi_type;
                                 getcateBusinessTypeData(busi_type);
                             }
 
@@ -614,6 +618,7 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
     public void onNextClicked(StepperLayout.OnNextClickedCallback callback) {
         if (validateFields()) {
             Shared_Preferences.setPrefs(getContext(), "Image", imagePath);
+            Shared_Preferences.setPrefs(getContext(), "business_type_id", businessTypeId);
             Shared_Preferences.setPrefs(getContext(), "busi_name", edt_busi_name.getText().toString().trim());
             Shared_Preferences.setPrefs(getContext(), "description", edt_busi_description.getText().toString().trim());
             Shared_Preferences.setPrefs(getContext(), "busi_type", busi_type);

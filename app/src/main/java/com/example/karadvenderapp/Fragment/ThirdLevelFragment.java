@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
 import com.example.karadvenderapp.R;
+import com.google.android.material.textfield.TextInputLayout;
 import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
@@ -77,6 +80,12 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
         // Required empty public constructor
     }
 
+    TextView tvLabelWorkingDays;
+    LinearLayout layoutCheckBoxes,layoutCheckBoxes2;
+    TextInputLayout etWorkingTime,etPeoplePerSlot,etPreBookingTime;
+    String businessTypeId="";
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -89,6 +98,38 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
 
 
     private void FindByID() {
+
+
+        // id to hide if service selected
+
+
+        tvLabelWorkingDays=rateview.findViewById(R.id.tvLabelWorkingDays);
+        layoutCheckBoxes=rateview.findViewById(R.id.layoutCheckBoxes);
+        layoutCheckBoxes2=rateview.findViewById(R.id.layoutCheckBoxes2);
+        etPreBookingTime=rateview.findViewById(R.id.etPreBookingTime);
+        etPeoplePerSlot=rateview.findViewById(R.id.etPeoplePerSlot);
+        etWorkingTime=rateview.findViewById(R.id.etWorkingTime);
+        businessTypeId=Shared_Preferences.getPrefs(getContext(), "business_type_id");
+        if(businessTypeId.equals("2"))
+        {
+            tvLabelWorkingDays.setVisibility(View.GONE);
+            layoutCheckBoxes.setVisibility(View.GONE);
+            etPreBookingTime.setVisibility(View.GONE);
+            etPeoplePerSlot.setVisibility(View.GONE);
+            etWorkingTime.setVisibility(View.GONE);
+            layoutCheckBoxes2.setVisibility(View.GONE);
+
+        }else{
+
+            tvLabelWorkingDays.setVisibility(View.VISIBLE);
+            layoutCheckBoxes.setVisibility(View.VISIBLE);
+            etPreBookingTime.setVisibility(View.VISIBLE);
+            etPeoplePerSlot.setVisibility(View.VISIBLE);
+            etWorkingTime.setVisibility(View.VISIBLE);
+            layoutCheckBoxes2.setVisibility(View.VISIBLE);
+        }
+
+
         //find by **working day***
         work_check_mon = rateview.findViewById(R.id.work_check_mon);
         work_check_tue = rateview.findViewById(R.id.work_check_tue);
@@ -154,6 +195,10 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
 
             }
         });
+
+
+
+
     }
 
 
@@ -216,26 +261,15 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
 
 
     private boolean validateFields() {
-        boolean result = true;
-        if (!MyValidator.isValidField(edt_working_time)) {
-            result = false;
+        List<Boolean> validationResultlist=new ArrayList<>();
+        String businessTypeId=Shared_Preferences.getPrefs(getContext(), "business_type_id");
+        if(businessTypeId.equals("1"))
+        {
+            validationResultlist.add(MyValidator.isValidField(edt_working_time));
+            validationResultlist.add(MyValidator.isValidField(edt_booking_time));
         }
-        if (!MyValidator.isValidField(edt_year)) {
-            result = false;
-        }
-        if (!MyValidator.isValidField(edt_booking_time)) {
-            result = false;
-        }
-//        if (!MyValidator.isValidField(edt_number_of_emp)) {
-//            result = false;
-//        }
-//        if (!MyValidator.isValidField(edt_busi_association)) {
-//            result = false;
-//        }
-//        if (!MyValidator.isValidField(edt_certification)) {
-//            result = false;
-//        }
-        return result;
+
+       return !validationResultlist.contains(false);
     }
 
 
@@ -429,17 +463,24 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
     public void onCompleteClicked(StepperLayout.OnCompleteClickedCallback callback) {
         Log.d("mytag","onCompleteClicked");
         if (validateFields()) {
-            if (!WorkingDayResult.contains("") || !WorkingDayResult.isEmpty()) {
+
+            if(businessTypeId.equals("2"))
+            {
+                getAdd_Business();
+            }else{
+                if (!WorkingDayResult.contains("") || !WorkingDayResult.isEmpty()) {
 //                if (!Payment_mode.contains("") || !Payment_mode.isEmpty()) {
                     getAdd_Business();
 //                } else {
 //                    Toast.makeText(getContext(), "Please Payment Option", Toast.LENGTH_SHORT).show();
 //                }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Please Select Working Days", Toast.LENGTH_SHORT).show();
+                }
             }
-            else
-            {
-                Toast.makeText(getContext(), "Please Select Working Days", Toast.LENGTH_SHORT).show();
-            }
+
         }
         else
         {

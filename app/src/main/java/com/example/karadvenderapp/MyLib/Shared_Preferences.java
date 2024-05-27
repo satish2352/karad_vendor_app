@@ -34,7 +34,7 @@ public class Shared_Preferences {
 
     public static String getPrefs(Context context, String prefKey) {
         preferences = context.getSharedPreferences(prefName, context.MODE_PRIVATE);
-        return preferences.getString(prefKey, null);
+        return preferences.getString(prefKey, "null");
     }
 
     public static void clearPref(Context context) {

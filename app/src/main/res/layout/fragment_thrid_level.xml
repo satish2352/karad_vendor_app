@@ -32,6 +32,7 @@
 
 
             <TextView
+                android:id="@+id/tvLabelWorkingDays"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Working Days"
@@ -39,6 +40,7 @@
                 android:textSize="18sp" />
 
             <LinearLayout
+                android:id="@+id/layoutCheckBoxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/five"
@@ -88,6 +90,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutCheckBoxes2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
@@ -127,6 +130,7 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etWorkingTime"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -309,6 +313,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etPreBookingTime"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -333,6 +338,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etPeoplePerSlot"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
