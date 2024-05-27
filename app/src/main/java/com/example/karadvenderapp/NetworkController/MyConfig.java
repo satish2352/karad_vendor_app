@@ -10,13 +10,14 @@ import com.google.gson.GsonBuilder;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MyConfig
 {
-    public static final String JSON_BASE_URL = "https://sumagosolutions.in/all_devp/Appointments_Services_Booking_Application/";
+    public static final String JSON_BASE_URL = "https://onlineq.in/demo/";
     public static final String JSON_PAYMENT_URL = "https://sumagoinfotech.in/rpa_original_webb/api/";
     public static final String Demo = "";
     public static final String APIKEY = "s9&@KPf1E%0GyU89CvDeW$VKQhg3VAREv^9t";
@@ -31,6 +32,7 @@ public class MyConfig
                             connectTimeout(60, TimeUnit.SECONDS)
                             .readTimeout(60, TimeUnit.SECONDS)
                             .writeTimeout(60, TimeUnit.SECONDS)
+                            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                             .build())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

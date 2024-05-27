@@ -378,10 +378,9 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
                     String output = "";
                     try {
                         output = response.body().string();
-
-                        Log.d("Response", "response23 " + output);
+                        Log.d("mytag", "response23 " + output);
                         JSONObject jsonObject = new JSONObject(output);
-                        Log.d("Result_New", output);
+                        Log.d("mytag", output);
                         if (jsonObject.getString("ResponseCode").equals("1")) {
                             mDialog.dismiss();
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext(), R.style.AlertDialogTheme);
@@ -401,6 +400,7 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Log.d("##", "Exception "+e.getMessage(),e);
                     }
                 } else {
                     Toast.makeText(getContext(), "Somwthing went wrong", Toast.LENGTH_SHORT).show();
@@ -411,7 +411,8 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 mDialog.dismiss();
-                Log.d("Upload_error:", "");
+                Log.d("mytag:", ""+t.getMessage());
+                t.printStackTrace();
             }
         });
 
@@ -426,6 +427,7 @@ public class ThirdLevelFragment<mBitmap> extends Fragment implements BlockingSte
 
     @Override
     public void onCompleteClicked(StepperLayout.OnCompleteClickedCallback callback) {
+        Log.d("mytag","onCompleteClicked");
         if (validateFields()) {
             if (!WorkingDayResult.contains("") || !WorkingDayResult.isEmpty()) {
 //                if (!Payment_mode.contains("") || !Payment_mode.isEmpty()) {
