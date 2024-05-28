@@ -1,21 +1,28 @@
 package com.example.karadvenderapp.Activity;
 
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.Manifest;
 import android.animation.Animator;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -204,6 +211,10 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getCertification", intent.getStringExtra("getCertification"));
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "getBusiness_image", intent.getStringExtra("getBusiness_image"));
         Shared_Preferences.setPrefs(ViewDetailsActivity.this, "get_booking_time", intent.getStringExtra("get_booking_time"));
+
+
+
+
 
 
         tv_address.setText("" + intent.getStringExtra("getAddress"));
@@ -449,6 +460,10 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
             }
         });
 
+        if(intent.getStringExtra("getFld_business_id").equals("2")){
+            fabLayout3.setVisibility(View.GONE);
+        }
+
         //   getLastScheduledEndDate();
 
     }
@@ -471,23 +486,22 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
 //    }
 
     private void showFABMenu() {
-        if (Shared_Preferences.getPrefs(ViewDetailsActivity.this, "getFld_business_name").equals("Appoinments")) {
-            isFABOpen = true;
-            fabLayout1.setVisibility(View.VISIBLE);
-            fabLayout2.setVisibility(View.GONE);
-            fabLayout3.setVisibility(View.VISIBLE);
-            fab.animate().rotationBy(360);
-            fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.fifteen));
-            fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
-        } else {
+        if (Shared_Preferences.getPrefs(ViewDetailsActivity.this, "getFld_business_id").equals("2")) {
             isFABOpen = true;
             fabLayout1.setVisibility(View.VISIBLE);
             fabLayout2.setVisibility(View.VISIBLE);
+            fabLayout3.setVisibility(View.INVISIBLE);
+            fab.animate().rotationBy(360);
+            fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.fifteen));
+            fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
+        } else {
+            isFABOpen = true;
+            fabLayout1.setVisibility(View.VISIBLE);
+            fabLayout2.setVisibility(View.INVISIBLE);
             fabLayout3.setVisibility(View.VISIBLE);
             fab.animate().rotationBy(360);
             fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.fifteen));
             fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
-            fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_100));
         }
 
     }
@@ -592,11 +606,18 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
                         if (options[i].equals("camera")) {
-                            Intent takepic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(takepic, 0);
+
+                            if(checkAndRequestCameraPermission(ViewDetailsActivity.this,100))
+                            {
+                                Intent takepic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(takepic, 0);
+                            }
                         } else if (options[i].equals("Gallery")) {
-                            Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(gallery, 1);
+                            if(checkAndRequestReadImagePermission(ViewDetailsActivity.this,101))
+                            {
+                                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(gallery, 1);
+                            }
                         } else {
                             dialog.dismiss();
                         }
@@ -1252,5 +1273,71 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
         return afterConvert;
 
 
+    }
+    public static boolean checkAndRequestReadImagePermission(Activity activity, int requestCode) {
+        String[] permissions = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ (API level 33): Use specific media permission
+            permissions = new String[]{Manifest.permission.READ_MEDIA_IMAGES};
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R &&
+                activity.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.R) {
+            // Android 11 with requestLegacyExternalStorage (not recommended, limited access)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        } else {
+            // Android 10-12 (API level 29-32): Use READ_EXTERNAL_STORAGE (may be limited on 11+)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
+        if (permissions != null) {
+            // Check permission
+            int permissionCheck = ContextCompat.checkSelfPermission(activity, permissions[0]);
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                // Permission already granted
+                return true;
+            } else if (shouldShowRequestPermissionRationale(activity, permissions[0])) {
+                // Permission not granted but can still be requested
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+                return false; // Indicate permission not granted yet
+            } else {
+                // Permission permanently denied, navigate to settings (optional)
+                navigateAppSettings(activity);
+                return false; // Indicate permission not granted
+            }
+        }
+
+        // No permissions to check (shouldn't happen)
+        return true; // Assuming no permission check is a success (review if needed)
+    }
+
+    private static void navigateAppSettings(Activity activity) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+        intent.setData(uri);
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(intent);
+        }
+    }
+
+    private static boolean shouldShowRequestPermissionRationale(Activity activity, String permission) {
+        return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
+    }
+    public static boolean checkAndRequestCameraPermission(Activity activity, int requestCode) {
+        String[] permissions = new String[]{Manifest.permission.CAMERA};
+
+        // Check permission
+        int permissionCheck = ContextCompat.checkSelfPermission(activity, permissions[0]);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            // Permission already granted
+            return true;
+        } else if (shouldShowRequestPermissionRationale(activity, permissions[0])) {
+            // Permission not granted but can still be requested
+            ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            return false; // Indicate permission not granted yet
+        } else {
+            // Permission permanently denied, navigate to settings (optional)
+            navigateAppSettings(activity);
+            return false; // Indicate permission not granted
+        }
     }
 }

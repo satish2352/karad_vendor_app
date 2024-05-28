@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -329,15 +330,57 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
             @Override
             public void onClick(View view)
             {
-                // Create the Intent for Image Gallery.
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                // Start new activity with the LOAD_IMAGE_RESULTS to handle back the results when image is picked from the Image Gallery.
-                startActivityForResult(i, LOAD_IMAGE_RESULTS); //LOAD_IMAGE_RESULTS
-
-//                startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
+                if(checkAndRequestReadImagePermission(getActivity(),100))
+                {
+                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(i, LOAD_IMAGE_RESULTS); //LOAD_IMAGE_RESULTS
+                }
             }
         });
+    }
+    public  boolean checkAndRequestReadImagePermission(Activity activity, int requestCode) {
+        String[] permissions = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ (API level 33): Use specific media permission
+            permissions = new String[]{Manifest.permission.READ_MEDIA_IMAGES};
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R &&
+                activity.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.R) {
+            // Android 11 with requestLegacyExternalStorage (not recommended, limited access)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        } else {
+            // Android 10-12 (API level 29-32): Use READ_EXTERNAL_STORAGE (may be limited on 11+)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
+        if (permissions != null) {
+            // Check permission
+            int permissionCheck = ContextCompat.checkSelfPermission(activity, permissions[0]);
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                // Permission already granted
+                return true;
+            } else if (shouldShowRequestPermissionRationale(permissions[0])) {
+                // Permission not granted but can still be requested
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+                return false; // Indicate permission not granted yet
+            } else {
+                // Permission permanently denied, navigate to settings (optional)
+                navigateAppSettings(activity);
+                return false; // Indicate permission not granted
+            }
+        }
+
+        // No permissions to check (shouldn't happen)
+        return true; // Assuming no permission check is a success (review if needed)
+    }
+
+    private static void navigateAppSettings(Activity activity) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+        intent.setData(uri);
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(intent);
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -352,6 +395,11 @@ public class FirstLevelFragment extends Fragment implements BlockingStep {
 
             // Now we need to set the GUI ImageView data with data read from the picked file.
             business_profile.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+
+            if(imagePath.length()>0){
+
+                tvErrorSelectImage.setText("");
+            }
 
             // At the end remember to close the cursor or you will end with the RuntimeException!
             cursor.close();

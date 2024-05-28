@@ -1,6 +1,8 @@
 package com.example.karadvenderapp.Fragment;
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -15,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +32,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.karadvenderapp.Model.BusinessTypeList;
@@ -75,6 +81,7 @@ public class UpdateFirstFragment extends Fragment implements BlockingStep {
     private final static int IMAGE_RESULT = 200;
     public static Bitmap mBitmap;
     private TextView text_upload_image;
+    private TextView tvErrorSelectImage;
     private ImageView business_profile;
     private EditText edt_busi_name, edt_busi_description, edt_contact_person, edt_designation, edt_mobile, edt_telephone, edt_email;
     private Spinner busi_type_spinner, busi_cate_type_spinner, busi_sub_type_spinner, busi_Sub_sub_type_spinner;
@@ -85,9 +92,11 @@ public class UpdateFirstFragment extends Fragment implements BlockingStep {
     private List<Business_Sub_SubCategoryList> business_sub_subCategoryLists = new ArrayList<>();
     private SimpleArcDialog mDialog;
     private String filePath;
-    private String imagePath;
-    private static int LOAD_IMAGE_RESULTS = 1;
+    private String imagePath="";
 
+    private CardView cardSelectImage;
+    private static int LOAD_IMAGE_RESULTS = 1;
+    String businessTypeId="";
     public UpdateFirstFragment() {
 
     }
@@ -226,6 +235,8 @@ public class UpdateFirstFragment extends Fragment implements BlockingStep {
     }
 
     private void FindByID() {
+        cardSelectImage = rateview.findViewById(R.id.cardSelectImage);
+        tvErrorSelectImage = rateview.findViewById(R.id.tvErrorSelectImage);
         business_profile = rateview.findViewById(R.id.business_profile);
         text_upload_image = rateview.findViewById(R.id.text_upload_image);
         edt_busi_name = rateview.findViewById(R.id.edt_busi_name);
@@ -254,13 +265,16 @@ public class UpdateFirstFragment extends Fragment implements BlockingStep {
                 .error(R.drawable.app_logo)
                 .placeholder(R.drawable.app_logo)
                 .into(business_profile);
-        text_upload_image.setOnClickListener(new View.OnClickListener() {
+        imagePath=Shared_Preferences.getPrefs(getContext(), "getBusiness_image");
+        cardSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Create the Intent for Image Gallery.
-                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(i, LOAD_IMAGE_RESULTS); //LOAD_IMAGE_RESULTS
+             if(checkAndRequestReadImagePermission(getActivity(),100))
+             {
+                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                 startActivityForResult(i, LOAD_IMAGE_RESULTS); //LOAD_IMAGE_RESULTS
+             }
             }
         });
     }
@@ -275,38 +289,79 @@ public class UpdateFirstFragment extends Fragment implements BlockingStep {
             cursor.moveToFirst();
             imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
             business_profile.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+            if(imagePath.length()>0)
+            {
+                tvErrorSelectImage.setText("");
+            }
             cursor.close();
         }
     }
 
+    public  boolean checkAndRequestReadImagePermission(Activity activity, int requestCode) {
+        String[] permissions = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ (API level 33): Use specific media permission
+            permissions = new String[]{Manifest.permission.READ_MEDIA_IMAGES};
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R &&
+                activity.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.R) {
+            // Android 11 with requestLegacyExternalStorage (not recommended, limited access)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        } else {
+            // Android 10-12 (API level 29-32): Use READ_EXTERNAL_STORAGE (may be limited on 11+)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
+        if (permissions != null) {
+            // Check permission
+            int permissionCheck = ContextCompat.checkSelfPermission(activity, permissions[0]);
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                // Permission already granted
+                return true;
+            } else if (shouldShowRequestPermissionRationale(permissions[0])) {
+                // Permission not granted but can still be requested
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+                return false; // Indicate permission not granted yet
+            } else {
+                // Permission permanently denied, navigate to settings (optional)
+                navigateAppSettings(activity);
+                return false; // Indicate permission not granted
+            }
+        }
+
+        // No permissions to check (shouldn't happen)
+        return true; // Assuming no permission check is a success (review if needed)
+    }
+
+    private static void navigateAppSettings(Activity activity) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+        intent.setData(uri);
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(intent);
+        }
+    }
 
     private boolean validateFields() {
-        boolean result = true;
-        if (!MyValidator.isValidField(edt_busi_name)) {
-            result = false;
+        List<Boolean> listValidation = new ArrayList<>();
+
+        listValidation.add(MyValidator.isValidField(edt_busi_name));
+        listValidation.add(MyValidator.isValidSpinner(busi_type_spinner));
+        listValidation.add(MyValidator.isValidSpinner(busi_cate_type_spinner));
+        listValidation.add(MyValidator.isValidSpinner(busi_sub_type_spinner));
+        listValidation.add(MyValidator.isValidField(edt_contact_person));
+        listValidation.add(MyValidator.isValidMobile(edt_mobile));
+        listValidation.add(MyValidator.isValidEmail(edt_email));
+
+        if (!imagePath.isEmpty()) {
+            listValidation.add(true);
+            tvErrorSelectImage.setText("");
+        } else {
+            listValidation.add(false);
+            tvErrorSelectImage.setText("Required: Please Select Image");
         }
-        if (!MyValidator.isValidSpinner(busi_type_spinner)) {
-            result = false;
-        }
-        if (!MyValidator.isValidSpinner(busi_cate_type_spinner)) {
-            result = false;
-        }
-      /*  if (!MyValidator.isValidSpinner(busi_sub_type_spinner)) {
-            result = false;
-        }
-        if (!MyValidator.isValidSpinner(busi_Sub_sub_type_spinner)) {
-            result = false;
-        }*/
-        if (!MyValidator.isValidField(edt_contact_person)) {
-            result = false;
-        }
-        if (!MyValidator.isValidMobile(edt_mobile)) {
-            result = false;
-        }
-        if (!MyValidator.isValidEmail(edt_email)) {
-            result = false;
-        }
-        return result;
+
+        return !listValidation.contains(false);
     }
 
     private void getBusinessData() {

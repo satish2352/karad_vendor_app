@@ -129,28 +129,25 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:background="@color/gray_separator"
+                            android:background="@color/gray_separator_1"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:layout_margin="@dimen/five"
                                 android:layout_weight="1"
                                 android:gravity="start"
-                                android:orientation="vertical"
+                                android:orientation="horizontal"
                                 android:padding="@dimen/seven">
 
                                 <ImageView
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
                                     android:layout_gravity="center"
                                     android:layout_margin="7dp"
-                                    android:elevation="@dimen/five"
-                                    android:padding="@dimen/five"
                                     android:src="@drawable/call" />
 
                                 <TextView
@@ -168,30 +165,21 @@
 
                             </LinearLayout>
 
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="75dp"
-                                android:layout_marginStart="@dimen/three"
-                                android:layout_marginEnd="@dimen/three"
-                                android:background="@color/pin_normal" />
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:layout_margin="@dimen/five"
                                 android:layout_weight="1"
                                 android:gravity="start"
-                                android:orientation="vertical"
+                                android:orientation="horizontal"
                                 android:padding="@dimen/seven">
 
                                 <ImageView
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
                                     android:layout_gravity="center"
                                     android:layout_margin="7dp"
                                     android:elevation="@dimen/five"
-                                    android:padding="@dimen/five"
                                     android:src="@drawable/email1" />
 
                                 <TextView
@@ -209,29 +197,20 @@
 
                             </LinearLayout>
 
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="75dp"
-                                android:layout_marginStart="@dimen/three"
-                                android:layout_marginEnd="@dimen/three"
-                                android:background="@color/pin_normal" />
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:layout_margin="@dimen/five"
                                 android:layout_weight="1"
-                                android:orientation="vertical"
+                                android:orientation="horizontal"
                                 android:padding="@dimen/seven">
 
                                 <ImageView
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
                                     android:layout_gravity="center"
                                     android:layout_margin="7dp"
                                     android:elevation="@dimen/five"
-                                    android:padding="@dimen/five"
                                     android:src="@drawable/address" />
 
                                 <TextView
@@ -250,13 +229,30 @@
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/seven"
+                    app:cardCornerRadius="@dimen/five"
+                    app:cardElevation="@dimen/five"
+                    app:cardUseCompatPadding="true">
 
+                <LinearLayout
+                    android:layout_margin="@dimen/five"
+                    android:id="@+id/linLayBusinessDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/gray_separator_1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:layout_margin="@dimen/five"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:gravity="start"
                         android:text="Business Description:"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -267,13 +263,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
+                        android:gravity="start"
                         android:maxLines="5"
                         android:padding="@dimen/seven"
                         android:text="The Business app puts the power in the hands of the business owner. With an easy-to-use interface and powerful features, it helps you get the most out of your WedMeGood listing. You can create and manage your profile, reply to enquiries and reviews from customers, view analytics, track business generated from WedMeGood, and more, on the go."
                         android:textColor="@color/black"
                         android:textSize="13sp" />
 
+
+
+                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                     <TextView
                         android:id="@+id/text_time"
@@ -301,7 +301,7 @@
                         android:textColor="@color/yellow_2"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:visibility="invisible" />
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/linear"

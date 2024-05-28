@@ -119,6 +119,8 @@ public class RequestCancelActivity extends AppCompatActivity
             public void onFailure(Call<ResponseBody> call, Throwable t)
             {
 
+                mDialog.dismiss();
+
             }
         });
     }

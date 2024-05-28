@@ -1,17 +1,25 @@
 package com.example.karadvenderapp.Activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +66,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UpdateVenderProfile extends UtilityRuntimePermission implements Camera.AsyncResponse {
+    private static final int REQUEST_CODE_READ_IMAGE_PERMISSION =100 ;
     private Camera camera;
     private Button btn_regiter;
     private int mYear, mMonth, mDay;
@@ -272,7 +281,8 @@ public class UpdateVenderProfile extends UtilityRuntimePermission implements Cam
             @Override
             public void onClick(View view)
             {
-                if (UpdateVenderProfile.super.requestAppPermissions(UpdateVenderProfile.this))
+                //requestReadImagePermission(UpdateVenderProfile.this,REQUEST_CODE_READ_IMAGE_PERMISSION);
+                if (checkAndRequestReadImagePermission(UpdateVenderProfile.this,REQUEST_CODE_READ_IMAGE_PERMISSION))
 
                 {
                     androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(UpdateVenderProfile.this);
@@ -284,8 +294,11 @@ public class UpdateVenderProfile extends UtilityRuntimePermission implements Cam
                         {
                             if(options[i].equals("camera"))
                             {
-                                Intent takepic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(takepic,0);
+                                if(checkAndRequestCameraPermission(UpdateVenderProfile.this,101))
+                                {
+                                    Intent takepic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    startActivityForResult(takepic,0);
+                                }
                             }
                             else if(options[i].equals("Gallery"))
                             {
@@ -304,6 +317,115 @@ public class UpdateVenderProfile extends UtilityRuntimePermission implements Cam
             }
         });
     }
+
+    public static void requestReadImagePermission(Activity activity, int requestCode) {
+        String[] permissions = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ (API level 33): Use specific media permission
+            permissions = new String[]{Manifest.permission.READ_MEDIA_IMAGES};
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R &&
+                activity.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.R) {
+            // Android 11 with requestLegacyExternalStorage (not recommended, limited access)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        } else {
+            // Android 10-12 (API level 29-32): Use READ_EXTERNAL_STORAGE (may be limited on 11+)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
+        if (permissions != null) {
+            // Check permission and request if needed
+            if (ContextCompat.checkSelfPermission(activity, permissions[0])
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            } else {
+                // Permission already granted, proceed with accessing images
+
+            }
+        }
+    }
+    public static boolean checkAndRequestReadImagePermission(Activity activity, int requestCode) {
+        String[] permissions = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13+ (API level 33): Use specific media permission
+            permissions = new String[]{Manifest.permission.READ_MEDIA_IMAGES};
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R &&
+                activity.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.R) {
+            // Android 11 with requestLegacyExternalStorage (not recommended, limited access)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        } else {
+            // Android 10-12 (API level 29-32): Use READ_EXTERNAL_STORAGE (may be limited on 11+)
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
+        }
+
+        if (permissions != null) {
+            // Check permission
+            int permissionCheck = ContextCompat.checkSelfPermission(activity, permissions[0]);
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                // Permission already granted
+                return true;
+            } else if (shouldShowRequestPermissionRationale(activity, permissions[0])) {
+                // Permission not granted but can still be requested
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+                return false; // Indicate permission not granted yet
+            } else {
+                // Permission permanently denied, navigate to settings (optional)
+                navigateAppSettings(activity);
+                return false; // Indicate permission not granted
+            }
+        }
+
+        // No permissions to check (shouldn't happen)
+        return true; // Assuming no permission check is a success (review if needed)
+    }
+
+    private static void navigateAppSettings(Activity activity) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+        intent.setData(uri);
+        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+            activity.startActivity(intent);
+        }
+    }
+
+    private static boolean shouldShowRequestPermissionRationale(Activity activity, String permission) {
+        return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
+    }
+    public static boolean checkAndRequestCameraPermission(Activity activity, int requestCode) {
+        String[] permissions = new String[]{Manifest.permission.CAMERA};
+
+        // Check permission
+        int permissionCheck = ContextCompat.checkSelfPermission(activity, permissions[0]);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            // Permission already granted
+            return true;
+        } else if (shouldShowRequestPermissionRationale(activity, permissions[0])) {
+            // Permission not granted but can still be requested
+            ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            return false; // Indicate permission not granted yet
+        } else {
+            // Permission permanently denied, navigate to settings (optional)
+            navigateAppSettings(activity);
+            return false; // Indicate permission not granted
+        }
+    }
+   /* @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_READ_IMAGE_PERMISSION) { // Replace with your request code
+            if (resultCode == RESULT_OK) {
+                // Permission granted, proceed with accessing images
+                // Use Storage Access Framework (SAF) for accessing images
+                //accessImagesUsingSAF();
+            } else {
+                // Permission denied, handle user rejection
+                Toast.makeText(this, "Permission to access images denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }*/
+
 
     private void uploadprofilewithoutimg()
     {
