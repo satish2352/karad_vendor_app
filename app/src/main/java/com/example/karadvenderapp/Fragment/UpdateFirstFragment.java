@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -324,13 +325,35 @@ public class UpdateFirstFragment extends Fragment implements BlockingStep {
                 return false; // Indicate permission not granted yet
             } else {
                 // Permission permanently denied, navigate to settings (optional)
-                navigateAppSettings(activity);
+                showPermissionExplanationDialog(activity);
                 return false; // Indicate permission not granted
             }
         }
 
         // No permissions to check (shouldn't happen)
         return true; // Assuming no permission check is a success (review if needed)
+    }
+
+
+    private void showPermissionExplanationDialog(Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle("Permission Needed")
+                .setMessage("This app needs access to your storage to select images. Please allow access in the settings.")
+                .setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //navigateAppSettings(requireActivity());
+                        showPermissionExplanationDialog(requireActivity());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
     }
 
     private static void navigateAppSettings(Activity activity) {

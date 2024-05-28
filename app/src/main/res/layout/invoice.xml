@@ -28,7 +28,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:drawablePadding="20dp"
+                    android:drawablePadding="10dp"
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:text="Invoice"
@@ -41,18 +41,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/seven"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:padding="@dimen/five"
                 android:weightSum="10">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:adjustViewBounds="true"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="8dp"
                     android:src="@mipmap/ic_launcher_round" />
 
                 <LinearLayout
@@ -60,46 +59,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_invoice_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="@dimen/seven"
-                        android:text="INV-220"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sixteen"
-                        android:textStyle="bold" />
-
                     <TextView
                         android:id="@+id/tv_company_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
                         android:padding="@dimen/seven"
-                        android:text="Karad"
-                        android:textAlignment="center"
+                        android:text="SaAaY"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/black"
                         android:textSize="@dimen/twenty"
                         android:textStyle="bold" />
-
                     <TextView
+                        android:id="@+id/tv_invoice_number"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Date"
-                        android:gravity="right"
-                        android:textColor="@color/black" />
+                        android:padding="@dimen/seven"
+                        android:textAlignment="textEnd"
+                        android:text="INV-220"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sixteen"
+                        android:textStyle="bold" />
 
+                <LinearLayout
+                    android:gravity="end"
+                    android:layout_gravity="end"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date : "
+                        android:textSize="@dimen/twelve"
+                        android:textColor="@color/black" />
                     <TextView
                         android:id="@+id/tv_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="right"
-                        android:padding="@dimen/seven"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="20 jun 2020"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/sixteen" />
+                        android:textSize="@dimen/twelve" />
+                </LinearLayout>
 
 
 
@@ -111,7 +112,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/seven"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -251,7 +251,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/seven"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -337,7 +336,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/seven"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -456,7 +454,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/seven"
                 android:background="@color/white"
                 android:orientation="vertical">
 

@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -30,6 +31,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -38,7 +40,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.karadvenderapp.MyLib.Constants;
+import com.example.karadvenderapp.MyLib.PdfSaveCallback;
 import com.example.karadvenderapp.MyLib.Shared_Preferences;
+import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
 import com.example.karadvenderapp.R;
 
 
@@ -46,6 +50,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class    DownloadInvoiceActivity extends AppCompatActivity {
@@ -63,16 +72,20 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
             owner_name, mobile,
             email, fld_product_type_name;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    PdfSaveCallback  callback;
+
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private SimpleArcDialog mDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invoice);
+        setContentView(R.layout.invoice);
         btn_takescreen = findViewById(R.id.btn_takescreen);
         toolbar = findViewById(R.id.toolbar);
         llPdf = findViewById(R.id.linear_layout);
-
 //        tv_price = findViewById(R.id.tv_price);
         tv_date = findViewById(R.id.tv_date);
         tv_name = findViewById(R.id.tv_name);
@@ -117,8 +130,9 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
         tv_startdate.setText(intent.getStringExtra("startdate"));
         tv_enddate.setText(intent.getStringExtra("enddate"));
 
-      checkPermissionsAndCreatePdf();
-
+      //checkPermissionsAndCreatePdf();
+        mDialog = new SimpleArcDialog(DownloadInvoiceActivity.this);
+        mDialog.setCancelable(false);
 
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +151,8 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
 //                    e.printStackTrace();
 //                }
 
-                createNewPdf();
+                //createNewPdf();
+                createSplitNewPdf();
             }
         });
     }
@@ -182,10 +197,10 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
             } else {
-                createNewPdf();
+                createSplitNewPdf();
             }
         } else {
-            createNewPdf();
+           createSplitNewPdf();
         }
     }
 
@@ -194,39 +209,118 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                createNewPdf();
+               createSplitNewPdf();
             } else {
                 Log.e(TAG, "Permission denied to write to external storage");
             }
         }
     }
+    private void createSplitNewPdf() {
+        // Create a new PDF document
+        try {
+            mDialog.show();
+            PdfDocument myPdfDocument = new PdfDocument();
+            Paint myPaint = new Paint();
+            myPaint.setTextSize(16);
+            myPaint.setColor(Color.BLACK);
 
-    private void createNewPdf() {
-        PdfDocument myPdfDocument = new PdfDocument();
-        Paint myPaint = new Paint();
-        myPaint.setTextSize(16);
-        myPaint.setColor(android.graphics.Color.BLACK);
+            // Capture the entire activity screenshot
+            Bitmap screenshot = captureFullScreen(DownloadInvoiceActivity.this);
 
-        PdfDocument.PageInfo mypageInfo1 = new PdfDocument.PageInfo.Builder(1080, 720, 1).create();
-        PdfDocument.Page mypage1 = myPdfDocument.startPage(mypageInfo1);
-        Canvas canvas = mypage1.getCanvas();
-        canvas.drawText("Welcome To Karad", 40, 50, myPaint);
-        myPdfDocument.finishPage(mypage1);
+            // Page dimensions and margins
+            int pageWidth = screenshot.getWidth(); // Set page width to screenshot width
+            int pageHeight = screenshot.getHeight(); // Set page height to screenshot height
+            int topMargin = 100; // Adjust the top margin as needed
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            savePdfToDownloadsQAndAbove(myPdfDocument);
-        } else {
-            savePdfToDownloadsBelowQ(myPdfDocument);
+            // Create a single page
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create();
+            PdfDocument.Page page = myPdfDocument.startPage(pageInfo);
+            Canvas canvas = page.getCanvas();
+
+            // Draw the screenshot on the PDF with top margin
+            canvas.drawBitmap(screenshot, 0, 0, myPaint);
+
+            myPdfDocument.finishPage(page);
+
+            // Save the PDF document
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                savePdfToDownloadsQAndAbove(myPdfDocument, new PdfSaveCallback() {
+                    @Override
+                    public void onPdfSaved(String filePath) {
+
+                        mDialog.dismiss();
+                        Toast.makeText(DownloadInvoiceActivity.this, "Invoice Saved ; "+filePath, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        mDialog.dismiss();
+                    }
+                });
+            } else {
+                savePdfToDownloadsBelowQ(myPdfDocument, new PdfSaveCallback() {
+                    @Override
+                    public void onPdfSaved(String filePath) {
+
+
+                        mDialog.dismiss();
+                        Toast.makeText(DownloadInvoiceActivity.this, "File Saved ; "+filePath, Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        mDialog.dismiss();
+                    }
+                });
+            }
+
+            // Close the document
+            myPdfDocument.close();
+        } catch (Exception e) {
+            mDialog.dismiss();
+           Log.d("mytag" ,"Exception ",e);
+           e.printStackTrace();
+
         }
-
-        myPdfDocument.close();
     }
 
+    private Bitmap captureFullScreen(Activity activity) {
+        // Get the root view of the activity
+        View rootView = activity.findViewById(R.id.linear_layout);
+
+        // Measure the root view with the desired width and height
+        rootView.measure(View.MeasureSpec.makeMeasureSpec(rootView.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+        // Layout the view with the new dimensions
+        rootView.layout(0, 0, rootView.getMeasuredWidth(), rootView.getMeasuredHeight());
+
+        // Create a bitmap with the measured dimensions
+        Bitmap bitmap = Bitmap.createBitmap(rootView.getMeasuredWidth(), rootView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        // Draw the view onto the canvas
+        rootView.draw(canvas);
+
+        return bitmap;
+    }
+
+
     private void savePdfToDownloadsBelowQ(PdfDocument pdfDocument) {
+        // Get the current date and format it with hours, minutes, and seconds
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+
+        // Create the filename with the timestamp
+        String fileName = "invoice_" + currentDate + ".pdf";
+
+        // Get the Downloads directory
         File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File file = new File(downloadsDir, "invoice.pdf");
+        File file = new File(downloadsDir, fileName);
 
         try {
+            // Write the PDF to the file
             FileOutputStream fos = new FileOutputStream(file);
             pdfDocument.writeTo(fos);
             fos.close();
@@ -235,29 +329,100 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
             Log.e(TAG, "Error writing PDF to file", e);
         }
     }
+    private void savePdfToDownloadsBelowQ(final PdfDocument pdfDocument, final PdfSaveCallback callback) {
 
-    private void savePdfToDownloadsQAndAbove(PdfDocument pdfDocument) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "invoice.pdf");
-        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf");
-        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
 
-        Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+                // Get the current date and format it with hours, minutes, and seconds
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.getDefault());
+                String currentDate = sdf.format(new Date());
 
-        if (uri != null) {
-            try {
-                OutputStream outputStream = getContentResolver().openOutputStream(uri);
-                if (outputStream != null) {
-                    pdfDocument.writeTo(outputStream);
-                    outputStream.close();
-                    Log.d(TAG, "PDF written to " + uri.toString());
+                // Create the filename with the timestamp
+                final String fileName = "invoice_" + currentDate + ".pdf";
+
+                // Get the Downloads directory
+                File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                final File file = new File(downloadsDir, fileName);
+
+                try {
+                    // Write the PDF to the file
+                    FileOutputStream fos = new FileOutputStream(file);
+                    pdfDocument.writeTo(fos);
+                    fos.close();
+                    Log.d(TAG, "PDF written to " + file.getAbsolutePath());
+
+                    // Execute the success callback on the UI thread
+                    if (callback != null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onPdfSaved(Environment.DIRECTORY_DOWNLOADS+"/"+fileName);
+                            }
+                        });
+                    }
+                } catch (final IOException e) {
+                    Log.e(TAG, "Error writing PDF to file", e);
+                    // Execute the error callback on the UI thread
+                    if (callback != null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onError(e);
+                            }
+                        });
+                    }
                 }
-            } catch (IOException e) {
-                Log.e(TAG, "Error writing PDF to file", e);
-            }
-        } else {
-            Log.e(TAG, "Failed to create new MediaStore record.");
-        }
+
+
+    }
+
+    private void savePdfToDownloadsQAndAbove(PdfDocument pdfDocument,PdfSaveCallback callback) {
+
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.getDefault());
+                String currentDate = sdf.format(new Date());
+
+                // Create the filename with the timestamp
+                String fileName = "invoice_" + currentDate + ".pdf";
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+                contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf");
+                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+
+                Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues);
+
+                if (uri != null) {
+                    try {
+                        OutputStream outputStream = getContentResolver().openOutputStream(uri);
+                        if (outputStream != null) {
+                            pdfDocument.writeTo(outputStream);
+                            outputStream.close();
+                            Log.d(TAG, "PDF written to " + uri.toString());
+
+
+
+                            if (callback != null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onPdfSaved(Environment.DIRECTORY_DOWNLOADS+"/"+fileName);
+                                    }
+                                });
+                            }
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Error writing PDF to file", e);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onError(e);
+                            }
+                        });
+
+                    }
+                } else {
+                    Log.e(TAG, "Failed to create new MediaStore record.");
+                }
+
+
     }
 
 
@@ -268,78 +433,6 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
 
         return b;
     }
-
-
-    private void createPdf() {
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        //  Display display = wm.getDefaultDisplay();
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        float hight = displaymetrics.heightPixels;
-        float width = displaymetrics.widthPixels;
-
-        int convertHighet = (int) hight, convertWidth = (int) width;
-
-//        Resources mResources = getResources();
-//        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.screenshot);
-
-        PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 1).create();
-        PdfDocument.Page page = document.startPage(pageInfo);
-
-        Canvas canvas = page.getCanvas();
-
-        Paint paint = new Paint();
-        canvas.drawPaint(paint);
-
-        bitmap = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet, true);
-
-        paint.setColor(Color.BLUE);
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        document.finishPage(page);
-
-        // write the document content
-        String targetPdf = "/sdcard/pdffrom_" + Invoice + ".pdf";
-        Log.d("TAG", "createPdf: " + targetPdf);
-        File filePath;
-        filePath = new File(targetPdf);
-        try {
-            document.writeTo(new FileOutputStream(filePath));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
-
-        // close the document
-        document.close();
-        Toast.makeText(this, "PDF is created!!!", Toast.LENGTH_SHORT).show();
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DownloadInvoiceActivity.this);
-        alertDialogBuilder.setMessage("PDF is created!!!");
-        alertDialogBuilder.setCancelable(false)
-                .setPositiveButton("Open", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //openGeneratedPDF();
-                        File file = new File("/sdcard/pdffrom_" + Invoice + ".pdf");
-                        Intent viewPdf = new Intent(Intent.ACTION_VIEW);
-                        viewPdf.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        Uri URI = FileProvider.getUriForFile(DownloadInvoiceActivity.this, DownloadInvoiceActivity.this.getApplicationContext().getPackageName() + ".provider", file);
-                        viewPdf.setDataAndType(URI, "application/pdf");
-                        viewPdf.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        startActivity(viewPdf);
-
-                    }
-                })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
-    }
-
 
     @Override
     public boolean onSupportNavigateUp() {
