@@ -230,8 +230,6 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
             // Page dimensions and margins
             int pageWidth = screenshot.getWidth(); // Set page width to screenshot width
             int pageHeight = screenshot.getHeight(); // Set page height to screenshot height
-            int topMargin = 100; // Adjust the top margin as needed
-
             // Create a single page
             PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create();
             PdfDocument.Page page = myPdfDocument.startPage(pageInfo);
@@ -249,12 +247,13 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
                     public void onPdfSaved(String filePath) {
 
                         mDialog.dismiss();
-                        Toast.makeText(DownloadInvoiceActivity.this, "Invoice Saved ; "+filePath, Toast.LENGTH_LONG).show();
+                        Toast.makeText(DownloadInvoiceActivity.this, "Invoice Saved  to "+filePath, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onError(Exception e) {
                         mDialog.dismiss();
+                        Toast.makeText(DownloadInvoiceActivity.this, "Unable to save invoice", Toast.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -264,13 +263,14 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
 
 
                         mDialog.dismiss();
-                        Toast.makeText(DownloadInvoiceActivity.this, "File Saved ; "+filePath, Toast.LENGTH_LONG).show();
+                        Toast.makeText(DownloadInvoiceActivity.this, "Invoice Saved to "+filePath, Toast.LENGTH_LONG).show();
 
                     }
 
                     @Override
                     public void onError(Exception e) {
                         mDialog.dismiss();
+                        Toast.makeText(DownloadInvoiceActivity.this, "Unable to save invoice", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -313,7 +313,7 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
         String currentDate = sdf.format(new Date());
 
         // Create the filename with the timestamp
-        String fileName = "invoice_" + currentDate + ".pdf";
+        String fileName = "INV_" + currentDate + ".pdf";
 
         // Get the Downloads directory
         File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
@@ -337,7 +337,7 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
                 String currentDate = sdf.format(new Date());
 
                 // Create the filename with the timestamp
-                final String fileName = "invoice_" + currentDate + ".pdf";
+                final String fileName = "INV_" + currentDate + ".pdf";
 
                 // Get the Downloads directory
                 File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
