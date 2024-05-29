@@ -340,7 +340,6 @@ public class Camera extends UtilityRuntimePermission {
             super.onPostExecute(result);
             if (fromGallery) {
                 Glide.with(activity).load(result)
-                        .crossFade()
                         .into(imageView);
 
 

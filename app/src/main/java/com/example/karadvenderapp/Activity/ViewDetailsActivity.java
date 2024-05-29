@@ -16,6 +16,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -1280,27 +1281,35 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // Android 13+ (API level 33): Use specific media permission
             permissions = new String[]{Manifest.permission.READ_MEDIA_IMAGES};
-        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R &&
-                activity.getApplicationInfo().targetSdkVersion >= Build.VERSION_CODES.R) {
-            // Android 11 with requestLegacyExternalStorage (not recommended, limited access)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Android 11 and above: Use READ_EXTERNAL_STORAGE
             permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
         } else {
-            // Android 10-12 (API level 29-32): Use READ_EXTERNAL_STORAGE (may be limited on 11+)
+            // Android 10 and below: Use READ_EXTERNAL_STORAGE
             permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
         }
 
         if (permissions != null) {
+            SharedPreferences preferences = activity.getSharedPreferences("permission_prefs", Context.MODE_PRIVATE);
+            boolean isFirstRequest = preferences.getBoolean("isFirstRequestReadImages", true);
+
             // Check permission
             int permissionCheck = ContextCompat.checkSelfPermission(activity, permissions[0]);
             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                 // Permission already granted
                 return true;
-            } else if (shouldShowRequestPermissionRationale(activity, permissions[0])) {
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[0])) {
                 // Permission not granted but can still be requested
                 ActivityCompat.requestPermissions(activity, permissions, requestCode);
+                preferences.edit().putBoolean("isFirstRequestReadImages", false).apply();
+                return false; // Indicate permission not granted yet
+            } else if (isFirstRequest) {
+                // First time asking for permission
+                ActivityCompat.requestPermissions(activity, permissions, requestCode);
+                preferences.edit().putBoolean("isFirstRequestReadImages", false).apply();
                 return false; // Indicate permission not granted yet
             } else {
-                // Permission permanently denied, navigate to settings (optional)
+                // Permission permanently denied, navigate to settings
                 navigateAppSettings(activity);
                 return false; // Indicate permission not granted
             }
@@ -1311,31 +1320,54 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
     }
 
     private static void navigateAppSettings(Activity activity) {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
-        intent.setData(uri);
-        if (intent.resolveActivity(activity.getPackageManager()) != null) {
-            activity.startActivity(intent);
-        }
+
+        androidx.appcompat.app.AlertDialog.Builder builder=new androidx.appcompat.app.AlertDialog.Builder(activity)
+                .setTitle("Allow Permission In Settings")
+                .setMessage("Allow All the requested permission from \nSettings->permissions")
+                .setPositiveButton("Goto Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                        intent.setData(uri);
+                        if (intent.resolveActivity(activity.getPackageManager()) != null) {
+                            activity.startActivity(intent);
+                        }
+                    }
+                });
+
+        androidx.appcompat.app.AlertDialog alertDialog=builder.create();
+        alertDialog.show();
     }
+
+
 
     private static boolean shouldShowRequestPermissionRationale(Activity activity, String permission) {
         return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
     }
     public static boolean checkAndRequestCameraPermission(Activity activity, int requestCode) {
         String[] permissions = new String[]{Manifest.permission.CAMERA};
+        SharedPreferences preferences = activity.getSharedPreferences("permission_prefs", Context.MODE_PRIVATE);
+        boolean isFirstRequest = preferences.getBoolean("isFirstRequest", true);
 
         // Check permission
         int permissionCheck = ContextCompat.checkSelfPermission(activity, permissions[0]);
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             // Permission already granted
             return true;
-        } else if (shouldShowRequestPermissionRationale(activity, permissions[0])) {
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[0])) {
             // Permission not granted but can still be requested
             ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            preferences.edit().putBoolean("isFirstRequest", false).apply();
+            return false; // Indicate permission not granted yet
+        } else if (isFirstRequest) {
+            // First time asking for permission
+            ActivityCompat.requestPermissions(activity, permissions, requestCode);
+            preferences.edit().putBoolean("isFirstRequest", false).apply();
             return false; // Indicate permission not granted yet
         } else {
-            // Permission permanently denied, navigate to settings (optional)
+            // Permission permanently denied, navigate to settings
             navigateAppSettings(activity);
             return false; // Indicate permission not granted
         }

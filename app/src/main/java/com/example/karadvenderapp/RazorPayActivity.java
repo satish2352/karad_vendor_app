@@ -58,6 +58,7 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
     {
         Checkout checkout = new Checkout();
         checkout.setImage(com.razorpay.R.drawable.rzp_logo);
+        checkout.setKeyID("rzp_test_B2dywNUHUBpyzT");
         final Activity activity = this;
         try {
             JSONObject options = new JSONObject();
