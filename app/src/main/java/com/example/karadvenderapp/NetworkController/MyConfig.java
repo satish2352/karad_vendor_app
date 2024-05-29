@@ -4,6 +4,9 @@ package com.example.karadvenderapp.NetworkController;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;*/
 
+import android.util.Log;
+
+import com.example.karadvenderapp.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,32 +18,34 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MyConfig
-{
-    public static final String JSON_BASE_URL = "https://onlineq.in/demo/";
-    public static final String JSON_PAYMENT_URL = "https://sumagoinfotech.in/rpa_original_webb/api/";
-    public static final String Demo = "";
-    public static final String APIKEY = "s9&@KPf1E%0GyU89CvDeW$VKQhg3VAREv^9t";
+public class MyConfig {
+    public static final String JSON_BASE_URL = BuildConfig.API_URL;
 
+    public static Retrofit retrofit ;
+    public static Retrofit getRetrofit() {
+        Gson gson = new GsonBuilder().setLenient().create();
+        if(retrofit==null)
+        {OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder()
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .writeTimeout(60, TimeUnit.SECONDS);
 
-    public static Retrofit retrofit=null;
-        public static Retrofit getRetrofit() {
-            Gson gson = new GsonBuilder().setLenient().create();
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            if (BuildConfig.DEBUG) {
+                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            }else{
+                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+            }
+            httpClientBuilder.addInterceptor(loggingInterceptor);
+
             retrofit = new Retrofit.Builder()
-                    .baseUrl(JSON_BASE_URL)
-                    .client(new OkHttpClient.Builder().
-                            connectTimeout(60, TimeUnit.SECONDS)
-                            .readTimeout(60, TimeUnit.SECONDS)
-                            .writeTimeout(60, TimeUnit.SECONDS)
-                            .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                            .build())
+                    .baseUrl(JSON_BASE_URL)  // Assuming you have set API_URL in your BuildConfig
+                    .client(httpClientBuilder.build())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
-            return retrofit;
+        }
+        return retrofit;
     }
-
-
-
 
 
 }
