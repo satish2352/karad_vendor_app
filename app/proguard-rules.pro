@@ -102,6 +102,7 @@
 
 # Retrofit
 -keep class retrofit2.** { *; }
+-keep class com.squareup.** { *; }
 -keep class okhttp3.** { *; }
 -keepclassmembers class okhttp3.** {
     *;
@@ -122,9 +123,19 @@
 # OkHttp Logging Interceptor
 -keep class okhttp3.logging.HttpLoggingInterceptor { *; }
 
-
-
+#for Picasso library
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.* { *;}
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
 -keep class com.example.karadvenderapp.Model.** { *; }
+-dontwarn okio.**
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *; }
+-keep interface com.squareup.okhttp3.** { *; }
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
 
 
 -assumenosideeffects class android.util.Log {
@@ -135,3 +146,13 @@
     public static int w(...);
     public static int e(...);
 }
+
+# Preserve the Picasso and OkHttp classes
+-keep class com.squareup.picasso.** { *; }
+-keep class com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.okhttp.**
+-dontwarn okhttp3.**
+
+# If using OkHttp3, also keep these
+-keep class okhttp3.** { *; }
+-keep class okio.** { *; }
