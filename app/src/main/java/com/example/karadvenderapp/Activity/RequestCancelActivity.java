@@ -22,6 +22,7 @@ import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
 import com.example.karadvenderapp.R;
+import com.example.karadvenderapp.interfaces.MyRecyclerViewItemClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RequestCancelActivity extends AppCompatActivity
+public class RequestCancelActivity extends AppCompatActivity implements MyRecyclerViewItemClickListener
 {
 
     RecyclerView rec;
@@ -130,5 +131,13 @@ public class RequestCancelActivity extends AppCompatActivity
     {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onRecyclerViewItemClicked(Object object, int position) {
+
+        serviceList.clear();
+        appointmentList.clear();
+        getcancellist();
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karadvenderapp.Model.CancelUserAppointmentList;
 import com.example.karadvenderapp.R;
+import com.example.karadvenderapp.interfaces.MyRecyclerViewItemClickListener;
 
 import java.util.List;
 
@@ -19,11 +20,13 @@ public class UserCancelAppointmentAdapter extends RecyclerView.Adapter<UserCance
 {
     private Context context;
     private List<CancelUserAppointmentList> list;
+    MyRecyclerViewItemClickListener recyclerViewItemClickListener;
 
     public UserCancelAppointmentAdapter(Context context, List<CancelUserAppointmentList> list)
     {
         this.context = context;
         this.list = list;
+        this.recyclerViewItemClickListener=recyclerViewItemClickListener;
     }
 
     @NonNull

@@ -82,7 +82,6 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invoice);
-        setContentView(R.layout.invoice);
         btn_takescreen = findViewById(R.id.btn_takescreen);
         toolbar = findViewById(R.id.toolbar);
         llPdf = findViewById(R.id.linear_layout);
@@ -244,10 +243,12 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 savePdfToDownloadsQAndAbove(myPdfDocument, new PdfSaveCallback() {
                     @Override
-                    public void onPdfSaved(String filePath) {
+                    public void onPdfSaved(String filePath,Uri uri) {
+
 
                         mDialog.dismiss();
                         Toast.makeText(DownloadInvoiceActivity.this, "Invoice Saved  to "+filePath, Toast.LENGTH_LONG).show();
+                        openPdf(DownloadInvoiceActivity.this,uri);
                     }
 
                     @Override
@@ -259,11 +260,12 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
             } else {
                 savePdfToDownloadsBelowQ(myPdfDocument, new PdfSaveCallback() {
                     @Override
-                    public void onPdfSaved(String filePath) {
+                    public void onPdfSaved(String filePath,Uri uri) {
 
 
                         mDialog.dismiss();
                         Toast.makeText(DownloadInvoiceActivity.this, "Invoice Saved to "+filePath, Toast.LENGTH_LONG).show();
+                        openPdf(DownloadInvoiceActivity.this,uri);
 
                     }
 
@@ -284,6 +286,31 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
 
         }
     }
+
+    private void openPdf(Context context, Uri uri) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+            // Grant temporary read permission to the content URI
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            // Create a chooser intent to let the user select the app to open the PDF
+            Intent chooser = Intent.createChooser(intent, "Open PDF with");
+
+            // Check if there's an app that can handle the intent
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(chooser);
+            } else {
+                Toast.makeText(context, "No application to view PDF", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+
+            Log.d("mytag" ,"Exception ",e);
+        }
+    }
+
 
     private Bitmap captureFullScreen(Activity activity) {
         // Get the root view of the activity
@@ -355,7 +382,7 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                callback.onPdfSaved(Environment.DIRECTORY_DOWNLOADS+"/"+fileName);
+                                callback.onPdfSaved(Environment.DIRECTORY_DOWNLOADS+"/"+fileName,Uri.fromFile(file));
                             }
                         });
                     }
@@ -403,7 +430,7 @@ public class    DownloadInvoiceActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        callback.onPdfSaved(Environment.DIRECTORY_DOWNLOADS+"/"+fileName);
+                                        callback.onPdfSaved(Environment.DIRECTORY_DOWNLOADS+"/",uri);
                                     }
                                 });
                             }

@@ -231,8 +231,8 @@ public class BusinessVarientListAdapter extends RecyclerView.Adapter<BusinessVar
         Call<ResponseBody> result = apiInterface.update_Varient(varient_id,
                 dia_busi_name.getText().toString().trim(),
                 edt_busi_description.getText().toString().trim(),
-                edt_busi_rate.getText().toString().trim()
-
+                edt_busi_rate.getText().toString().trim(),
+                Shared_Preferences.getPrefs(context,"Business_ID")
         );
         result.enqueue(new Callback<ResponseBody>() {
             @Override

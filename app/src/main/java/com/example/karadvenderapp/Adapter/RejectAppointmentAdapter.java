@@ -24,6 +24,7 @@ import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
 import com.example.karadvenderapp.R;
+import com.example.karadvenderapp.interfaces.MyRecyclerViewItemClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ public class RejectAppointmentAdapter extends RecyclerView.Adapter<RejectAppoint
 {
     private Context context;
     private List<RejectAppointmentList> list;
+    MyRecyclerViewItemClickListener recyclerViewItemClickListener;
 
     public RejectAppointmentAdapter(Context context, List<RejectAppointmentList> list)
     {

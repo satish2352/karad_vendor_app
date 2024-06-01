@@ -152,7 +152,7 @@
                     android:id="@+id/busi_cate_type_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/type_of_state2"
+                    android:entries="@array/select_business_category"
                     android:hint="Business Category"
                     android:imeOptions="actionNext"
                     android:textColor="@color/black"
@@ -172,7 +172,7 @@
                     android:id="@+id/busi_sub_type_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/type_of_state2"
+                    android:entries="@array/select_business_sub_category"
                     android:hint="Business SubCategory"
                     android:imeOptions="actionNext"
                     android:textColor="@color/black"
@@ -225,7 +225,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
-                    android:inputType="text"
+                    android:inputType="none"
+                    android:enabled="false"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -245,7 +246,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
-                    android:inputType="text"
+                    android:inputType="none"
+                    android:enabled="false"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -265,8 +267,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
-                    android:inputType="number"
+                    android:inputType="none"
                     android:maxLength="10"
+                    android:enabled="false"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -287,7 +290,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
-                    android:inputType="number"
+                    android:inputType="none"
+                    android:enabled="false"
                     android:maxLength="12"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
@@ -308,7 +312,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
+                    android:inputType="none"
+                    android:enabled="false"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>

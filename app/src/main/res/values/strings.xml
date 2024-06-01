@@ -5,9 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="no_internet">No Internet Connection,Please Connect The Internet or Wifi</string>
     <string-array name="type_of_state2">
-        <item>---Business Categroy---</item>
-        <item> </item>
-        <item> </item>
+        <item>---Business Category---</item>
     </string-array>
     <string-array name="select_country">
         <item>--Select Country--</item>
@@ -29,6 +27,13 @@
     </string-array>
     <string-array name="select_landmark">
         <item>--Select Landmark--</item>
+    </string-array>
+
+    <string-array name="select_business_category">
+        <item>---Business Category---</item>
+    </string-array>
+    <string-array name="select_business_sub_category">
+        <item>---Business Sub Category---</item>
     </string-array>
 
     <array name="colors_1">

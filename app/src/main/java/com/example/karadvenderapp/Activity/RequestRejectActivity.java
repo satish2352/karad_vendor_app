@@ -24,6 +24,8 @@ import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
 import com.example.karadvenderapp.R;
+import com.example.karadvenderapp.interfaces.MyRecyclerViewItemClickListener;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RequestRejectActivity extends AppCompatActivity
+public class RequestRejectActivity extends AppCompatActivity implements MyRecyclerViewItemClickListener
 {
 
     RecyclerView rec;
@@ -92,6 +94,7 @@ public class RequestRejectActivity extends AppCompatActivity
                             JSONObject object = jsonArray.getJSONObject(i);
                             Log.e("UserObject",""+object);
                             String id = object.getString("fld_business_id");
+                            Log.d("mytag",new Gson().toJson(object));
                             if(id.equals("1"))
                             {
                                 appointmentList.add(new RejectAppointmentList(object));
@@ -109,6 +112,7 @@ public class RequestRejectActivity extends AppCompatActivity
 
                         }
                     }
+
                     mDialog.dismiss();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -130,5 +134,10 @@ public class RequestRejectActivity extends AppCompatActivity
     {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onRecyclerViewItemClicked(Object object, int position) {
+
     }
 }

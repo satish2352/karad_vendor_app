@@ -27,6 +27,7 @@ import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
 import com.example.karadvenderapp.R;
+import com.example.karadvenderapp.interfaces.MyRecyclerViewItemClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,11 +45,13 @@ public class RequestAppointmentAdapter extends RecyclerView.Adapter<RequestAppoi
     public Context context;
     private List<RequestAppointmentList> list;
     private SimpleArcDialog mDialog;
+    MyRecyclerViewItemClickListener recyclerViewItemClickListener;
 
-    public RequestAppointmentAdapter(Context context, List<RequestAppointmentList> list)
+    public RequestAppointmentAdapter(Context context, List<RequestAppointmentList> list,MyRecyclerViewItemClickListener recyclerViewItemClickListener)
     {
         this.context = context;
         this.list = list;
+        this.recyclerViewItemClickListener=recyclerViewItemClickListener;
     }
 
     @NonNull
@@ -101,9 +104,12 @@ public class RequestAppointmentAdapter extends RecyclerView.Adapter<RequestAppoi
                             JSONObject jsonObject = new JSONObject(output);
                             if (jsonObject.getString("result").equals("true"))
                             {
+                                recyclerViewItemClickListener.onRecyclerViewItemClicked(list.get(position),position);
                                 Toast.makeText(context, "Request Approved", Toast.LENGTH_SHORT).show();
                                 list.remove(list.get(position));
                                 notifyDataSetChanged();
+                                notifyDataSetChanged();
+
 
                             }
                             mDialog.dismiss();
@@ -148,9 +154,12 @@ public class RequestAppointmentAdapter extends RecyclerView.Adapter<RequestAppoi
                             JSONObject jsonObject = new JSONObject(output);
                             if (jsonObject.getString("result").equals("true"))
                             {
+                                recyclerViewItemClickListener.onRecyclerViewItemClicked(list.get(position),position);
                                 Toast.makeText(context, "Request Disapproved", Toast.LENGTH_SHORT).show();
                                 list.remove(list.get(position));
                                 notifyDataSetChanged();
+                                notifyItemRemoved(position);
+
                             }
                             mDialog.dismiss();
                         } catch (IOException e) {
@@ -194,6 +203,7 @@ public class RequestAppointmentAdapter extends RecyclerView.Adapter<RequestAppoi
                             if (jsonObject.getString("result").equals("true"))
                             {
                                 Toast.makeText(context, "Request Completed Successfully", Toast.LENGTH_SHORT).show();
+                                recyclerViewItemClickListener.onRecyclerViewItemClicked(list.get(position),position);
                             }
                             mDialog.dismiss();
                         } catch (IOException e) {
@@ -234,7 +244,11 @@ public class RequestAppointmentAdapter extends RecyclerView.Adapter<RequestAppoi
                             JSONObject jsonObject = new JSONObject(output);
                             if (jsonObject.getString("result").equals("true"))
                             {
+                                recyclerViewItemClickListener.onRecyclerViewItemClicked(list.get(position),position);
                                 Toast.makeText(context, "Request Rejected", Toast.LENGTH_SHORT).show();
+                                list.remove(position);
+                                notifyItemRemoved(position);
+
                             }
                             mDialog.dismiss();
                         } catch (IOException e) {

@@ -19,6 +19,7 @@ import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
 import com.example.karadvenderapp.R;
+import com.example.karadvenderapp.interfaces.MyRecyclerViewItemClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RequestCompleteActivity extends AppCompatActivity 
+public class RequestCompleteActivity extends AppCompatActivity implements MyRecyclerViewItemClickListener
 {
     RecyclerView rec;
     private ArrayList<RequestAppointmentList> appointmentList = new ArrayList<RequestAppointmentList>();
@@ -88,14 +89,14 @@ public class RequestCompleteActivity extends AppCompatActivity
                                 //Log.e("UserObject",""+object);
                                 appointmentList.add(new RequestAppointmentList(object));
                                 rec.setLayoutManager(new LinearLayoutManager(RequestCompleteActivity.this,RecyclerView.VERTICAL,false));
-                                RequestAppointmentAdapter appointmentAdapter= new RequestAppointmentAdapter(RequestCompleteActivity.this,appointmentList);
+                                RequestAppointmentAdapter appointmentAdapter= new RequestAppointmentAdapter(RequestCompleteActivity.this,appointmentList,RequestCompleteActivity.this);
                                 rec.setAdapter(appointmentAdapter);
                             }
                             else if(id.equals("2"))
                             {
                                 serviceList.add(new RequestServiceList(object));
                                 rec.setLayoutManager(new LinearLayoutManager(RequestCompleteActivity.this,RecyclerView.VERTICAL,false));
-                                RequestServiceAdapter serviceAdapter= new RequestServiceAdapter(RequestCompleteActivity.this,serviceList);
+                                RequestServiceAdapter serviceAdapter= new RequestServiceAdapter(RequestCompleteActivity.this,serviceList,RequestCompleteActivity.this);
                                 rec.setAdapter(serviceAdapter);
                             }
 
@@ -122,5 +123,13 @@ public class RequestCompleteActivity extends AppCompatActivity
     {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onRecyclerViewItemClicked(Object object, int position) {
+        Log.d("mytag", "onRecyclerViewItemClicked: ");
+        appointmentList.clear();
+        serviceList.clear();
+        getcompletelist();
     }
 }

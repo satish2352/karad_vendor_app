@@ -23,6 +23,7 @@ import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
 import com.example.karadvenderapp.R;
+import com.example.karadvenderapp.interfaces.MyRecyclerViewItemClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,10 +41,12 @@ public class RequestServiceAdapter extends RecyclerView.Adapter<RequestServiceAd
     private Context context;
     private List<RequestServiceList> requestServiceLists;
     private SimpleArcDialog mDialog;
-    public RequestServiceAdapter(Context context, List<RequestServiceList> requestServiceLists)
+    MyRecyclerViewItemClickListener recyclerViewItemClickListener;
+    public RequestServiceAdapter(Context context, List<RequestServiceList> requestServiceLists,MyRecyclerViewItemClickListener recyclerViewItemClickListener)
     {
         this.context = context;
         this.requestServiceLists = requestServiceLists;
+        this.recyclerViewItemClickListener=recyclerViewItemClickListener;
     }
 
 
@@ -95,8 +98,10 @@ public class RequestServiceAdapter extends RecyclerView.Adapter<RequestServiceAd
                             if (jsonObject.getString("result").equals("true"))
                             {
                                 Toast.makeText(context, "Request Approved", Toast.LENGTH_SHORT).show();
+                                recyclerViewItemClickListener.onRecyclerViewItemClicked(requestServiceLists.get(position),position);
                                 requestServiceLists.remove(requestServiceLists.get(position));
                                 notifyDataSetChanged();
+
                             }
                             mDialog.dismiss();
                         } catch (IOException e) {
@@ -137,9 +142,11 @@ public class RequestServiceAdapter extends RecyclerView.Adapter<RequestServiceAd
                             JSONObject jsonObject = new JSONObject(output);
                             if (jsonObject.getString("result").equals("true"))
                             {
+                                recyclerViewItemClickListener.onRecyclerViewItemClicked(requestServiceLists.get(position),position);
                                 Toast.makeText(context, "Request Disapproved", Toast.LENGTH_SHORT).show();
                                 requestServiceLists.remove(requestServiceLists.get(position));
                                 notifyDataSetChanged();
+
                             }
                             mDialog.dismiss();
                         } catch (IOException e) {
@@ -180,6 +187,7 @@ public class RequestServiceAdapter extends RecyclerView.Adapter<RequestServiceAd
                             JSONObject jsonObject = new JSONObject(output);
                             if (jsonObject.getString("result").equals("true"))
                             {
+                                recyclerViewItemClickListener.onRecyclerViewItemClicked(requestServiceLists.get(position),position);
                                 Toast.makeText(context, "Request Completed Successfully", Toast.LENGTH_SHORT).show();
                             }
                             mDialog.dismiss();
@@ -221,7 +229,9 @@ public class RequestServiceAdapter extends RecyclerView.Adapter<RequestServiceAd
                             JSONObject jsonObject = new JSONObject(output);
                             if (jsonObject.getString("result").equals("true"))
                             {
+                                recyclerViewItemClickListener.onRecyclerViewItemClicked(requestServiceLists.get(position),position);
                                 Toast.makeText(context, "Request Rejected", Toast.LENGTH_SHORT).show();
+                                notifyItemRemoved(position);
                             }
                             mDialog.dismiss();
                         } catch (IOException e) {

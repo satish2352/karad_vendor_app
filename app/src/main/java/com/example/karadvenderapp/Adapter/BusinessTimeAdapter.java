@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karadvenderapp.Model.BusinessTime;
+import com.example.karadvenderapp.MyLib.Shared_Preferences;
 import com.example.karadvenderapp.NetworkController.APIInterface;
 import com.example.karadvenderapp.NetworkController.MyConfig;
 import com.example.karadvenderapp.NetworkController.SimpleArcDialog;
@@ -195,7 +196,9 @@ public class BusinessTimeAdapter extends RecyclerView.Adapter<BusinessTimeAdapte
         APIInterface apiInterface = MyConfig.getRetrofit().create(APIInterface.class);
         Call<ResponseBody> result = apiInterface.update_business_time(string,
                 dia_start_time.getText().toString().trim(),
-                edt_end_time.getText().toString().trim()
+                edt_end_time.getText().toString().trim(),
+                Shared_Preferences.getPrefs(context,"Business_ID")
+
 
         );
         result.enqueue(new Callback<ResponseBody>() {
@@ -264,7 +267,8 @@ public class BusinessTimeAdapter extends RecyclerView.Adapter<BusinessTimeAdapte
     private void deleteTime(String string, final int position) {
         mDialog.show();
         APIInterface apiInterface = MyConfig.getRetrofit().create(APIInterface.class);
-        Call<ResponseBody> result = apiInterface.delete_business_time(string);
+        String fld_business_id=Shared_Preferences.getPrefs(context, "Business_ID");
+        Call<ResponseBody> result = apiInterface.delete_business_time(string,fld_business_id);
         result.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

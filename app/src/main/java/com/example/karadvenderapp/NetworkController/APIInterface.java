@@ -247,7 +247,8 @@ public interface APIInterface {
     @POST("API_Vendor/update_business_time.php")
     Call<ResponseBody> update_business_time(@Field("fld_business_time_id") String fld_business_time_id,
                                             @Field("fld_working_open_time") String fld_working_open_time,
-                                            @Field("fld_working_close_time") String fld_working_close_time);
+                                            @Field("fld_working_close_time") String fld_working_close_time,
+                                            @Field("business_info_id")String business_info_id);
 
     @FormUrlEncoded
     @POST("API_Vendor/view_business_working_time.php")
@@ -255,7 +256,10 @@ public interface APIInterface {
 
     @FormUrlEncoded
     @POST("API_Vendor/delete_business_time_variant.php")
-    Call<ResponseBody> delete_business_time(@Field("fld_business_time_id") String fld_business_time_id);
+    Call<ResponseBody> delete_business_time(
+            @Field("fld_business_time_id") String fld_business_time_id,
+            @Field("business_info_id")String business_info_id
+    );
 
     @FormUrlEncoded
     @POST("API_Vendor/delete_business_information.php")
@@ -270,7 +274,9 @@ public interface APIInterface {
     Call<ResponseBody> update_Varient(@Field("fld_business_details_id") String fld_business_details_id,
                                       @Field("fld_business_details_name") String fld_business_details_name,
                                       @Field("fld_business_details_size") String fld_business_details_size,
-                                      @Field("fld_business_details_rate") String fld_business_details_rate);
+                                      @Field("fld_business_details_rate") String fld_business_details_rate,
+                                      @Field("business_info_id")String business_info_id
+    );
 
 
     //update Business
