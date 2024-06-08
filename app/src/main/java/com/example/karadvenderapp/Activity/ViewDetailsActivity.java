@@ -502,7 +502,7 @@ public class ViewDetailsActivity extends UtilityRuntimePermission implements Swi
             fabLayout3.setVisibility(View.VISIBLE);
             fab.animate().rotationBy(360);
             fabLayout1.animate().translationY(-getResources().getDimension(R.dimen.fifteen));
-            fabLayout2.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
+            fabLayout3.animate().translationY(-getResources().getDimension(R.dimen.standard_65));
         }
 
     }
