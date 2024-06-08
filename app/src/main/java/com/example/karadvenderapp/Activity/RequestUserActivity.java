@@ -142,6 +142,7 @@ public class RequestUserActivity extends AppCompatActivity implements MyRecycler
         Log.d("mytag", "onRecyclerViewItemClicked: ");
         appointmentList.clear();
         serviceList.clear();
+        rec.getAdapter().notifyDataSetChanged();
         getRequest();
     }
 }

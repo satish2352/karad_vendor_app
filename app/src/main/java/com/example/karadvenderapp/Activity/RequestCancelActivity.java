@@ -138,6 +138,7 @@ public class RequestCancelActivity extends AppCompatActivity implements MyRecycl
 
         serviceList.clear();
         appointmentList.clear();
+        rec.getAdapter().notifyDataSetChanged();
         getcancellist();
     }
 }

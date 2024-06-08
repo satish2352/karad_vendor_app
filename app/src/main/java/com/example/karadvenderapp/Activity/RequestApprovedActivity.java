@@ -115,17 +115,26 @@ public class RequestApprovedActivity extends AppCompatActivity implements MyRecy
                             }
                         }
                         mDialog.dismiss();
-                    } catch (IOException e) {
+                    } catch (IOException e)
+                    {
                         e.printStackTrace();
                     } catch (JSONException e) {
-                        e.printStackTrace();
+
+
                     }
                 }
-
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t)
                 {
-                    Log.d("mytag", "onFailure: ");
+                    appointmentList.clear();
+                    rec.setLayoutManager(new LinearLayoutManager(RequestApprovedActivity.this,RecyclerView.VERTICAL,false));
+                    RequestAppointmentAdapter appointmentAdapter= new RequestAppointmentAdapter(RequestApprovedActivity.this,appointmentList,RequestApprovedActivity.this);
+                    rec.setAdapter(appointmentAdapter);
+
+                    serviceList.clear();
+                    rec.setLayoutManager(new LinearLayoutManager(RequestApprovedActivity.this,RecyclerView.VERTICAL,false));
+                    RequestServiceAdapter serviceAdapter= new RequestServiceAdapter(RequestApprovedActivity.this,serviceList,RequestApprovedActivity.this);
+                    rec.setAdapter(serviceAdapter);
                 }
             });
         } catch (Exception e) {
@@ -147,6 +156,7 @@ public class RequestApprovedActivity extends AppCompatActivity implements MyRecy
         Log.d("mytag", "onRecyclerViewItemClicked: ");
         appointmentList.clear();
         serviceList.clear();
+        rec.getAdapter().notifyDataSetChanged();
         getApprovedList();
 
 

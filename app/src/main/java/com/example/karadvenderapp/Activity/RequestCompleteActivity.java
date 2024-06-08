@@ -130,6 +130,7 @@ public class RequestCompleteActivity extends AppCompatActivity implements MyRecy
         Log.d("mytag", "onRecyclerViewItemClicked: ");
         appointmentList.clear();
         serviceList.clear();
+        rec.getAdapter().notifyDataSetChanged();
         getcompletelist();
     }
 }
